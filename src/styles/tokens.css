@@ -1,0 +1,64 @@
+/* Unlocked SAT — design tokens
+   Editorial system (big type, 1px rules, square cards, pill actions)
+   coloured from the brand logo: navy #2C4271 + gold #D5A13C on paper #F4F4F2. */
+:root {
+  /* Brand */
+  --brand-navy: #2c4271;
+  --brand-gold: #d5a13c;
+  --brand-gold-soft: #e7c47c;
+  --brand-gold-ink: #8a6418; /* gold text on light bg (AA) */
+
+  /* Surfaces */
+  --night: #0c1529;        /* dark sections, hero, footer */
+  --night-2: #121f3b;      /* raised panels on dark */
+  --paper: #f4f4f2;        /* light sections (logo background) */
+  --white: #ffffff;        /* cards on paper */
+  --ink: #14213d;          /* text + borders on light */
+  --ink-2: #26324d;
+  --muted: #5a6378;        /* muted text on light (5.6:1 on paper) */
+  --muted-2: #8a92a3;
+  --rule-light: rgba(20, 33, 61, 0.12);
+
+  /* On dark */
+  --on-dark: #ffffff;
+  --on-dark-85: rgba(255, 255, 255, 0.85);
+  --on-dark-70: rgba(255, 255, 255, 0.7);
+  --on-dark-55: rgba(255, 255, 255, 0.58);
+  --line-dark: rgba(255, 255, 255, 0.14);
+  --line-dark-strong: rgba(255, 255, 255, 0.3);
+
+  /* Feedback */
+  --ok: #1f7a4d;
+  --ok-bg: #e5f3ec;
+  --bad: #b23a2e;
+  --bad-bg: #f8e6e3;
+
+  /* Typography */
+  --font-sans: "Inter Variable", "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --text-display: clamp(44px, 10vw, 176px);
+  --text-h2: clamp(34px, 5.4vw, 76px);
+  --text-h2-tight: clamp(32px, 5vw, 64px);
+  --text-sub: clamp(22px, 2.6vw, 32px);
+  --text-body: 18px;
+  --text-body-sm: 16px;
+  --text-caption: 12px;
+
+  /* Layout */
+  --shell: 1120px;
+  --gutter: clamp(16px, 4vw, 28px);
+  --section-y: clamp(72px, 9vw, 152px);
+  --header-h: 68px;
+  --card-pad: clamp(20px, 3.2vw, 34px);
+
+  /* Radius */
+  --r-pill: 999px;
+  --r-card: 0px;
+  --r-soft: 10px; /* app controls */
+
+  /* Motion */
+  --ease: cubic-bezier(0.19, 1, 0.22, 1);
+  --t-micro: 0.4s;
+  --t-medium: 0.8s;
+  --t-patient: 1.25s;
+}
