@@ -1,7 +1,7 @@
 'use client';
 // Client-side progress store (localStorage). Shaped so it can later be replaced by API calls.
 import { useSyncExternalStore } from 'react';
-import { questionById } from '@/data/questions';
+import { getBank } from './bank';
 import { skills, type Section, type SkillId } from '@/data/skills';
 
 export type Reason = 'concept' | 'careless' | 'misread' | 'time' | 'guess';
@@ -162,7 +162,7 @@ export type SkillStat = { skill: SkillId; n: number; correct: number; acc: numbe
 export function skillStats(attempts: Attempt[]): SkillStat[] {
   const map = new Map<SkillId, { n: number; correct: number }>();
   for (const a of attempts) {
-    const q = questionById[a.qid];
+    const q = getBank().byId[a.qid];
     if (!q) continue;
     const s = map.get(q.skill) || { n: 0, correct: 0 };
     s.n++;

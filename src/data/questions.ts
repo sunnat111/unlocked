@@ -480,7 +480,6 @@ for (const q of questions) {
   q.answer = order.indexOf(q.answer);
 }
 
-export const questionById: Record<string, Question> = Object.fromEntries(questions.map((q) => [q.id, q]));
 
 /** Parse a student-produced response: integers, decimals, fractions, optional minus, commas/spaces ignored. */
 export function parseNumeric(input: string): number | null {

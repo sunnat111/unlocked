@@ -4,6 +4,7 @@ import { useI18n } from '@/components/I18nProvider';
 import { AccBar } from './Bars';
 import { skills, skillsBySection, type Section } from '@/data/skills';
 import { fmt } from '@/lib/i18n';
+import { useBank } from '@/lib/bank';
 import { actions, skillStats, useStore } from '@/lib/store';
 
 function ScoreChart({ points, target }: { points: { at: number; total: number; low: number; high: number }[]; target: number }) {
@@ -38,6 +39,7 @@ export function Progress() {
   const { locale, t } = useI18n();
   const pr = t.app.progress;
   const [st, hydrated] = useStore();
+  useBank(); // re-render when database questions arrive
   if (!hydrated) return <div className="app-wrap"><div className="panel skeleton" /></div>;
   const stats = skillStats(st.attempts);
   const bySkill = new Map(stats.map((s) => [s.skill, s]));

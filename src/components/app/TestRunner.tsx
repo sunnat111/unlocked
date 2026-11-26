@@ -7,14 +7,15 @@ import { LogoMark } from '@/components/Logo';
 import { QuestionView } from './QuestionView';
 import { Calculator } from './Calculator';
 import { diagnostic } from '@/data/tests';
-import { questionById, isCorrect } from '@/data/questions';
+import { isCorrect, type Question } from '@/data/questions';
+import { useBank } from '@/lib/bank';
 import { actions, useStore, type ItemResult, type TestSession, type TestResult } from '@/lib/store';
 import { fmt } from '@/lib/i18n';
 import { miniSectionScore, ROUTE_THRESHOLD } from '@/lib/scoring';
 
 const mmss = (s: number) => `${Math.floor(s / 60)}:${String(Math.max(0, s) % 60).padStart(2, '0')}`;
 
-function grade(qids: string[], answers: TestSession['answers']): ItemResult[] {
+function grade(qids: string[], answers: TestSession['answers'], questionById: Record<string, Question>): ItemResult[] {
   return qids.map((qid) => {
     const response = answers[qid] ?? null;
     return { qid, response, correct: isCorrect(questionById[qid], response) };
@@ -26,6 +27,9 @@ export function TestRunner() {
   const tt = t.app.test;
   const router = useRouter();
   const [{ session }, hydrated] = useStore();
+  const { byId: questionById } = useBank();
+  const byIdRef = useRef(questionById);
+  byIdRef.current = questionById;
   const [s, setS] = useState<TestSession | null>(null);
   const [view, setView] = useState<'question' | 'review'>('question');
   const [navOpen, setNavOpen] = useState(false);
@@ -58,7 +62,7 @@ export function TestRunner() {
     const cur = sRef.current;
     if (!cur) return;
     const def = diagnostic.sections[cur.sectionIdx];
-    const items = grade(cur.qids, cur.answers);
+    const items = grade(cur.qids, cur.answers, byIdRef.current);
     setView('question');
     setNavOpen(false);
     setCalcOpen(false);

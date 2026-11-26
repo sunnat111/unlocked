@@ -5,6 +5,7 @@ import { useI18n } from '@/components/I18nProvider';
 import { Onboarding } from './Onboarding';
 import { AccBar } from './Bars';
 import { fmt } from '@/lib/i18n';
+import { useBank } from '@/lib/bank';
 import { formatDate } from '@/lib/dates';
 import { actions, dailyMinutes, daysUntil, skillName, streak, useStore, weakestSkills } from '@/lib/store';
 
@@ -12,6 +13,7 @@ export function Dashboard() {
   const { locale, t } = useI18n();
   const d = t.app.dash;
   const [st, hydrated] = useStore();
+  useBank(); // re-render when database questions arrive
   const [editing, setEditing] = useState(false);
   const base = `/${locale}/app`;
 

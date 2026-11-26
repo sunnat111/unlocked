@@ -4,7 +4,7 @@ Adaptive Digital SAT preparation for students in Uzbekistan and Central Asia —
 
 > *Your score, unlocked.*
 
-This repository is the **MVP**: a marketing website plus a working practice app. It runs fully in the browser, with no backend yet, and is exported as static files, so it can be hosted anywhere.
+This repository is the **MVP**: a marketing website, a working practice app, and an admin panel for managing questions. The site is exported as static files, so it can be hosted anywhere. Questions are stored in **PostgreSQL** (Supabase). See **[docs/DATABASE.md](docs/DATABASE.md)** for the 15-minute setup.
 
 ## What's inside
 
@@ -26,10 +26,17 @@ This repository is the **MVP**: a marketing website plus a working practice app.
 - **Mistake journal**: every wrong answer is saved. Tag the error type, retry it until it's "unlocked", or drill the skill.
 - **Progress**: score history chart, skill accuracy, data export and reset.
 
-Progress is stored in `localStorage` (`src/lib/store.ts`). The store is shaped so it can be replaced by API calls when accounts arrive.
+Student progress is stored in `localStorage` (`src/lib/store.ts`). The store is shaped so it can be replaced by API calls when student accounts arrive.
+
+### Admin panel (`/{locale}/admin/`) + PostgreSQL
+- Sign in with an admin account (Supabase Auth).
+- Create, edit, preview, publish/unpublish and delete questions. Search and filter by section, skill and status.
+- **Export / Import JSON** for backups and bulk upload. One click loads the starter questions into an empty database.
+- Security lives in the database (row-level security, `supabase/schema.sql`): anyone can read *published* questions, and only admins can write. Drafts are never sent to students.
+- The app caches questions in the browser and falls back to the built-in bank, so it keeps working offline or before the database is connected.
 
 ### Content
-- 56 **original** SAT-style questions (28 Reading & Writing, 28 Math) in `src/data/questions.ts`, tagged by official domain and skill (`src/data/skills.ts`) and by difficulty 1–3. They are not College Board material.
+- 56 **original** starter questions (28 Reading & Writing, 28 Math) in `src/data/questions.ts` (also as `supabase/seed.sql`, regenerate with `npm run db:seed`), tagged by official domain and skill (`src/data/skills.ts`) and by difficulty 1–3. They are not College Board material.
 - The diagnostic definition is in `src/data/tests.ts`.
 
 ## Design
@@ -51,6 +58,7 @@ All tokens are in `src/styles/tokens.css`. The website and the app share one sys
 npm install
 npm run dev          # http://localhost:3000
 npm test             # content + logic checks (question bank, calculator, diagnostic)
+bash supabase/tests/run.sh   # database schema + security tests (needs a local PostgreSQL)
 npm run typecheck
 NEXT_PUBLIC_SITE_URL=https://your-domain npm run build   # static site in ./out
 npm run preview      # serve ./out on http://localhost:4000
@@ -84,15 +92,18 @@ src/
     sitemap.ts robots.ts not-found.tsx icon.svg
   components/site/        Header (with mobile drawer), Footer, HeroGlow, demos, simulator, pricing…
   components/app/         AppShell, TestRunner, QuestionView, Calculator, Dashboard…
-  data/                   questions, skills, diagnostic, legal text
+  components/admin/       admin panel (sign-in, question list, editor, import/export)
+  data/                   built-in questions, skills, diagnostic, legal text
   i18n/                   en.ts (source of truth for keys), uz.ts, ru.ts
-  lib/                    config, i18n, store, scoring, calc, dates, seo
+  lib/                    config, i18n, store, bank (DB questions), supabase, adminData, scoring, calc, dates, seo
+supabase/                 schema.sql, seed.sql, tests/ (PostgreSQL)
+docs/DATABASE.md          database setup guide
   styles/                 tokens.css, globals.css, site.css, app.css
 scripts/check.mts         npm test
 ```
 
 ## Roadmap (next phases)
-1. **Accounts and sync**: phone OTP and Telegram login, with progress saved on a server (NestJS + PostgreSQL per the blueprint).
+1. **Student accounts and sync**: phone OTP and Telegram login, with progress saved in the same PostgreSQL database.
 2. **Payments**: Payme and Click (UZS) for Premium.
 3. **More content**: a larger question bank and full-length 98-question adaptive mock tests.
 4. **Telegram bot**: daily reminders and parent progress reports.

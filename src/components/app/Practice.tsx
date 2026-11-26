@@ -4,7 +4,8 @@ import { useMemo, useState } from 'react';
 import { useI18n } from '@/components/I18nProvider';
 import { QuestionView } from './QuestionView';
 import { ReasonPicker } from './ReasonPicker';
-import { questions, questionById, isCorrect, type Difficulty } from '@/data/questions';
+import { isCorrect, type Difficulty } from '@/data/questions';
+import { useBank } from '@/lib/bank';
 import { skills, skillsBySection, type Section, type SkillId } from '@/data/skills';
 import { fmt } from '@/lib/i18n';
 import { actions, useStore, type Response } from '@/lib/store';
@@ -30,10 +31,11 @@ export function Practice() {
   const [count, setCount] = useState(5);
   const [run, setRun] = useState<{ qids: string[]; i: number; resp: Response; checked: boolean; score: number } | null>(null);
   const [st] = useStore();
+  const { list: questions, byId: questionById } = useBank();
 
   const pool = useMemo(
     () => questions.filter((q) => q.section === section && (skill === 'all' || q.skill === skill) && (!diff || q.difficulty === diff)),
-    [section, skill, diff],
+    [questions, section, skill, diff],
   );
 
   const start = () => {

@@ -4,7 +4,8 @@ import { useSearchParams } from 'next/navigation';
 import { useI18n } from '@/components/I18nProvider';
 import { AccBar } from './Bars';
 import { Passage } from './QuestionView';
-import { questionById, answerLabel } from '@/data/questions';
+import { answerLabel } from '@/data/questions';
+import { useBank } from '@/lib/bank';
 import { fmt } from '@/lib/i18n';
 import { formatDate } from '@/lib/dates';
 import { skillName, skillStats, useStore, type Attempt } from '@/lib/store';
@@ -14,6 +15,7 @@ export function Results() {
   const r = t.app.results;
   const params = useSearchParams();
   const [st, hydrated] = useStore();
+  const { byId: questionById } = useBank();
   if (!hydrated) return <div className="app-wrap"><div className="panel skeleton" /></div>;
   const id = params.get('id');
   const res = (id ? st.results.find((x) => x.id === id) : undefined) || st.results[st.results.length - 1];
