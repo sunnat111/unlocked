@@ -59,7 +59,9 @@ npm run preview      # serve ./out on http://localhost:4000
 Requires Node 22+.
 
 ## Deploy
-`npm run build` produces a static site in `out/`. Upload it to any static host: Vercel, Netlify, Cloudflare Pages, GitHub Pages or nginx. Set `NEXT_PUBLIC_SITE_URL` at build time so canonical URLs, hreflang, the sitemap and Open Graph tags point to the real domain. Configure the host to serve `404.html` for unknown paths.
+**GitHub Pages (automatic):** `.github/workflows/deploy.yml` tests, builds and publishes the site on every push to `main` or `feat/mvp`. The site URL and sub-path (e.g. `/unlocked`) come from the Pages settings via `NEXT_PUBLIC_SITE_URL` / `NEXT_PUBLIC_BASE_PATH`, so adding a custom domain in Settings → Pages needs no code change.
+
+**Any other static host:** `npm run build` produces a static site in `out/`. Upload it to any static host: Vercel, Netlify, Cloudflare Pages, GitHub Pages or nginx. Set `NEXT_PUBLIC_SITE_URL` at build time so canonical URLs, hreflang, the sitemap and Open Graph tags point to the real domain. Configure the host to serve `404.html` for unknown paths.
 
 ## Before launch — replace placeholders
 All business settings are in **`src/lib/config.ts`**:

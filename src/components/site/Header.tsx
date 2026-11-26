@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { Logo } from '@/components/Logo';
 import { useI18n } from '@/components/I18nProvider';
 import { localeLabels, locales } from '@/lib/i18n';
+import { withBase } from '@/lib/base';
 
 export function Header({ solid = false }: { solid?: boolean }) {
   const { locale, t } = useI18n();
@@ -53,7 +54,7 @@ export function Header({ solid = false }: { solid?: boolean }) {
         </Link>
         <nav className="site-nav" aria-label="Main">
           {anchors.map((a) => (
-            <a key={a.href} href={a.href}>{a.label}</a>
+            <a key={a.href} href={withBase(a.href)}>{a.label}</a>
           ))}
           <Link href={tools[0].href}>{tools[0].label}</Link>
         </nav>
@@ -84,7 +85,7 @@ export function Header({ solid = false }: { solid?: boolean }) {
         </div>
         <nav className="drawer-nav" onClick={() => setOpen(false)}>
           {[...anchors, ...tools].map((a, i) => (
-            <a key={a.href} href={a.href}>
+            <a key={a.href} href={withBase(a.href)}>
               <span className="caption">{String(i + 1).padStart(2, '0')}</span>
               {a.label}
             </a>

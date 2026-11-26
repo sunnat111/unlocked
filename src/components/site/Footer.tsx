@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Logo } from '@/components/Logo';
 import { useI18n } from '@/components/I18nProvider';
 import { site } from '@/lib/config';
+import { withBase } from '@/lib/base';
 
 export function Footer() {
   const { locale, t } = useI18n();
@@ -27,8 +28,8 @@ export function Footer() {
           <div>
             <h3 className="footer-title">{t.footer.platform}</h3>
             <ul className="footer-list">
-              <li><a href={`${home}#keys`}>{t.nav.keys}</a></li>
-              <li><a href={`${home}#pricing`}>{t.nav.pricing}</a></li>
+              <li><a href={withBase(`${home}#keys`)}>{t.nav.keys}</a></li>
+              <li><a href={withBase(`${home}#pricing`)}>{t.nav.pricing}</a></li>
               <li><Link href={`/${locale}/score-calculator/`}>{t.nav.calculator}</Link></li>
               <li><Link href={`/${locale}/sat-dates/`}>{t.nav.dates}</Link></li>
               <li><Link href={`/${locale}/app/`}>{t.nav.openApp}</Link></li>
